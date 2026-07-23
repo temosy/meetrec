@@ -6,6 +6,8 @@ APP="$ROOT/MeetRec.app"
 CONTENTS="$APP/Contents"
 MACOS="$CONTENTS/MacOS"
 RESOURCES="$CONTENTS/Resources"
+BUNDLE_IDENTIFIER="${MEETREC_BUNDLE_IDENTIFIER:-local.haruo.meetrec}"
+ENTITLEMENTS="${MEETREC_ENTITLEMENTS:-}"
 
 sign_app() {
   local app="$1"
@@ -18,9 +20,17 @@ sign_app() {
   fi
 
   if [[ -n "$identity" ]]; then
-    codesign --force --deep --sign "$identity" "$app" >/dev/null
+    if [[ -n "$ENTITLEMENTS" ]]; then
+      codesign --force --deep --options runtime --entitlements "$ENTITLEMENTS" --sign "$identity" "$app" >/dev/null
+    else
+      codesign --force --deep --sign "$identity" "$app" >/dev/null
+    fi
   else
-    codesign --force --deep --sign - "$app" >/dev/null
+    if [[ -n "$ENTITLEMENTS" ]]; then
+      codesign --force --deep --options runtime --entitlements "$ENTITLEMENTS" --sign - "$app" >/dev/null
+    else
+      codesign --force --deep --sign - "$app" >/dev/null
+    fi
   fi
 }
 
@@ -40,7 +50,7 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
   <key>CFBundleExecutable</key>
   <string>MeetRec</string>
   <key>CFBundleIdentifier</key>
-  <string>local.haruo.meetrec</string>
+  <string>__BUNDLE_IDENTIFIER__</string>
   <key>CFBundleName</key>
   <string>MeetRec</string>
   <key>CFBundleDisplayName</key>
@@ -53,8 +63,14 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
   <string>0.1.0</string>
   <key>CFBundleVersion</key>
   <string>2</string>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.productivity</string>
   <key>LSMinimumSystemVersion</key>
   <string>15.0</string>
+  <key>NSHumanReadableCopyright</key>
+  <string>Copyright © 2026 Haruo Shimote. Released under the MIT License.</string>
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
   <key>NSHighResolutionCapable</key>
   <true/>
   <key>NSMicrophoneUsageDescription</key>
@@ -62,6 +78,8 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
 </dict>
 </plist>
 PLIST
+
+plutil -replace CFBundleIdentifier -string "$BUNDLE_IDENTIFIER" "$CONTENTS/Info.plist"
 
 sign_app "$APP"
 touch "$APP"

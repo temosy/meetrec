@@ -1,0 +1,5 @@
+MeetRec records the Mac screen and system audio only after the user grants macOS Screen & System Audio Recording permission.
+
+Microphone recording is off by default. The app requests microphone access only when the user enables "Record my voice".
+
+The app does not collect analytics, does not use third-party tracking, and does not upload recordings. Recordings are saved locally to the user-selected folder.

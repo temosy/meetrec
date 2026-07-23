@@ -1,0 +1,14 @@
+MeetRec is a small macOS app for recording online meetings, screen sharing, and audio sessions.
+
+Features:
+- Record the entire screen or a single window
+- Capture Mac system audio
+- Add microphone audio only when needed
+- Save audio-only recordings as .m4a files
+- Switch between Retina quality and lightweight half-resolution mode
+- Toggle cursor recording
+- Choose the microphone input source
+- Monitor Mac audio and microphone levels
+- Switch the interface between Japanese and English
+
+Please record meetings only with participant consent.

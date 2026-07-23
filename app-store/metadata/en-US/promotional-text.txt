@@ -1,0 +1,1 @@
+A lightweight Mac recorder for screen video, system audio, and optional microphone input.

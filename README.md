@@ -81,7 +81,20 @@ install -m 755 .build/release/meetrec ~/.local/bin/meetrec
 
 ## App Store
 
-MeetRec は無料アプリとして Mac App Store でも公開する予定です。App Store 向けには、App Store Connect のアプリ登録、正式な Bundle ID、配布用署名、Sandbox 対応、権限説明文、審査用メタデータとスクリーンショットの準備が必要です。
+MeetRec は無料アプリとして Mac App Store でも公開する予定です。
+
+- Bundle ID: `jp.temosy.meetrec`
+- Sandbox entitlements: `entitlements/app-store.entitlements`
+- App Store metadata: `app-store/metadata/`
+- Review notes: `app-store/review-notes.txt`
+- Privacy policy: [PRIVACY.md](PRIVACY.md)
+- Release checklist: [docs/app-store.md](docs/app-store.md)
+
+App Store 用パッケージは、Mac App Store 用の配布証明書をインストールしたうえで作成します。
+
+```sh
+scripts/build-app-store.sh
+```
 
 ## 初回権限
 
