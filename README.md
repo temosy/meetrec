@@ -9,6 +9,10 @@ Mac のオンライン会議画面とシステム音声を録画・録音する�
 - 出力: 録画は `mp4` / H.264 / AAC、録音のみは `m4a` / AAC
 - GUI: 日本語 / English 切替、入力ソース選択、音声レベルメーター付き
 
+## ライセンス
+
+MeetRec は MIT License で公開しています。詳細は [LICENSE](LICENSE) を参照してください。
+
 ## 使い方
 
 ```sh
@@ -74,6 +78,10 @@ scripts/make-icon.sh
 swift build -c release
 install -m 755 .build/release/meetrec ~/.local/bin/meetrec
 ```
+
+## App Store
+
+MeetRec は無料アプリとして Mac App Store でも公開する予定です。App Store 向けには、App Store Connect のアプリ登録、正式な Bundle ID、配布用署名、Sandbox 対応、権限説明文、審査用メタデータとスクリーンショットの準備が必要です。
 
 ## 初回権限
 
