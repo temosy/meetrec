@@ -1,5 +1,6 @@
 .DS_Store
 .build/
+.build-artifacts-backup/
 MeetRec.app/
 MeetRec-AppStore.pkg
 app-store/certificates/

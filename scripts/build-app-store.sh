@@ -36,11 +36,13 @@ EOF
 fi
 
 MEETREC_BUNDLE_IDENTIFIER="jp.temosy.meetrec" \
+MEETREC_MARKETING_VERSION="1.0" \
+MEETREC_BUNDLE_VERSION="1" \
 MEETREC_ENTITLEMENTS="$ROOT/entitlements/app-store.entitlements" \
 MEETREC_CODESIGN_IDENTITY="$APP_IDENTITY" \
 "$ROOT/scripts/build-app.sh" >/dev/null
 
-productbuild \
+COPYFILE_DISABLE=1 productbuild \
   --component "$APP" /Applications \
   --sign "$INSTALLER_IDENTITY" \
   "$PKG"

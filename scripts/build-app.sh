@@ -7,6 +7,8 @@ CONTENTS="$APP/Contents"
 MACOS="$CONTENTS/MacOS"
 RESOURCES="$CONTENTS/Resources"
 BUNDLE_IDENTIFIER="${MEETREC_BUNDLE_IDENTIFIER:-local.haruo.meetrec}"
+MARKETING_VERSION="${MEETREC_MARKETING_VERSION:-0.1.0}"
+BUNDLE_VERSION="${MEETREC_BUNDLE_VERSION:-2}"
 ENTITLEMENTS="${MEETREC_ENTITLEMENTS:-}"
 
 sign_app() {
@@ -38,6 +40,7 @@ cd "$ROOT"
 swift build -c release --product MeetRecGUI
 scripts/make-icon.sh >/dev/null
 
+rm -rf "$APP"
 mkdir -p "$MACOS" "$RESOURCES"
 cp "$ROOT/.build/release/MeetRecGUI" "$MACOS/MeetRec"
 cp "$ROOT/assets/MeetRec.icns" "$RESOURCES/MeetRec.icns"
@@ -60,9 +63,9 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
   <key>CFBundleIconFile</key>
   <string>MeetRec</string>
   <key>CFBundleShortVersionString</key>
-  <string>0.1.0</string>
+  <string>__MARKETING_VERSION__</string>
   <key>CFBundleVersion</key>
-  <string>2</string>
+  <string>__BUNDLE_VERSION__</string>
   <key>LSApplicationCategoryType</key>
   <string>public.app-category.productivity</string>
   <key>LSMinimumSystemVersion</key>
@@ -80,8 +83,12 @@ cat > "$CONTENTS/Info.plist" <<'PLIST'
 PLIST
 
 plutil -replace CFBundleIdentifier -string "$BUNDLE_IDENTIFIER" "$CONTENTS/Info.plist"
+plutil -replace CFBundleShortVersionString -string "$MARKETING_VERSION" "$CONTENTS/Info.plist"
+plutil -replace CFBundleVersion -string "$BUNDLE_VERSION" "$CONTENTS/Info.plist"
+xattr -cr "$APP"
 
 sign_app "$APP"
+xattr -cr "$APP"
 touch "$APP"
 
 echo "$APP"
