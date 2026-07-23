@@ -14,14 +14,17 @@ if [[ -z "$APP_IDENTITY" ]]; then
 fi
 
 if [[ -z "$INSTALLER_IDENTITY" ]]; then
-  INSTALLER_IDENTITY="$(security find-identity -v -p codesigning 2>/dev/null \
+  INSTALLER_IDENTITY="$(security find-identity -v 2>/dev/null \
     | sed -n 's/.*"\(3rd Party Mac Developer Installer:[^"]*\)".*/\1/p' \
     | head -1)"
 fi
 
 if [[ -z "$APP_IDENTITY" || -z "$INSTALLER_IDENTITY" ]]; then
+  echo "Missing Mac App Store signing identities." >&2
+  echo >&2
+  [[ -z "$APP_IDENTITY" ]] && echo "- 3rd Party Mac Developer Application" >&2
+  [[ -z "$INSTALLER_IDENTITY" ]] && echo "- 3rd Party Mac Developer Installer" >&2
   cat >&2 <<'EOF'
-Missing Mac App Store signing identities.
 
 Install the "3rd Party Mac Developer Application" and
 "3rd Party Mac Developer Installer" certificates, or set:

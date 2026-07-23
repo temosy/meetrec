@@ -2,7 +2,8 @@
 
 ## App identity
 
-- App name: MeetRec
+- App Store app name: MeetRec Recorder
+- Installed app name: MeetRec
 - Bundle ID: `jp.temosy.meetrec`
 - SKU suggestion: `meetrec-macos`
 - Price: Free
