@@ -2,5 +2,6 @@
 .build/
 MeetRec.app/
 MeetRec-AppStore.pkg
+app-store/certificates/
 *.mp4
 *.m4a
