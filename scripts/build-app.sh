@@ -10,6 +10,7 @@ BUNDLE_IDENTIFIER="${MEETREC_BUNDLE_IDENTIFIER:-local.haruo.meetrec}"
 MARKETING_VERSION="${MEETREC_MARKETING_VERSION:-0.1.0}"
 BUNDLE_VERSION="${MEETREC_BUNDLE_VERSION:-2}"
 ENTITLEMENTS="${MEETREC_ENTITLEMENTS:-}"
+PROVISIONING_PROFILE="${MEETREC_PROVISIONING_PROFILE:-}"
 
 sign_app() {
   local app="$1"
@@ -85,6 +86,17 @@ PLIST
 plutil -replace CFBundleIdentifier -string "$BUNDLE_IDENTIFIER" "$CONTENTS/Info.plist"
 plutil -replace CFBundleShortVersionString -string "$MARKETING_VERSION" "$CONTENTS/Info.plist"
 plutil -replace CFBundleVersion -string "$BUNDLE_VERSION" "$CONTENTS/Info.plist"
+
+# Must be embedded before codesign so the signature seals it.
+# Without it, App Store Connect reports ITMS-90889 and the build is not TestFlight eligible.
+if [[ -n "$PROVISIONING_PROFILE" ]]; then
+  if [[ ! -f "$PROVISIONING_PROFILE" ]]; then
+    echo "Provisioning profile not found: $PROVISIONING_PROFILE" >&2
+    exit 1
+  fi
+  cp "$PROVISIONING_PROFILE" "$CONTENTS/embedded.provisionprofile"
+fi
+
 xattr -cr "$APP"
 
 sign_app "$APP"

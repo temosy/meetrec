@@ -17,6 +17,19 @@ Install the Mac App Store distribution certificates in Keychain:
 - `3rd Party Mac Developer Application`
 - `3rd Party Mac Developer Installer`
 
+Create a **Mac App Store Connect** distribution provisioning profile for
+`jp.temosy.meetrec` at <https://developer.apple.com/account/resources/profiles/list>
+and save the downloaded file as:
+
+```
+app-store/profiles/MeetRec.provisionprofile
+```
+
+The build script embeds it at `MeetRec.app/Contents/embedded.provisionprofile`
+before code signing. Without it, App Store Connect reports warning ITMS-90889 and
+the uploaded build is not eligible for TestFlight. App Review itself still accepts
+such a build, but TestFlight distribution is blocked.
+
 Then build the upload package:
 
 ```sh
@@ -25,8 +38,10 @@ scripts/build-app-store.sh
 
 The script signs the app with `entitlements/app-store.entitlements` and produces `MeetRec-AppStore.pkg`.
 
-## Sandbox entitlements
+## Entitlements
 
+- `com.apple.application-identifier` — `3DU98362VP.jp.temosy.meetrec`
+- `com.apple.developer.team-identifier` — `3DU98362VP`
 - `com.apple.security.app-sandbox`
 - `com.apple.security.device.microphone`
 - `com.apple.security.files.user-selected.read-write`
