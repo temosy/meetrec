@@ -4,5 +4,6 @@
 MeetRec.app/
 MeetRec-AppStore.pkg
 app-store/certificates/
+app-store/profiles/
 *.mp4
 *.m4a
